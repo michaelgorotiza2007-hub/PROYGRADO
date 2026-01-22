@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LCP Académico | Portal Oficial</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div id="loader-screen">
+        <div class="loader-content">
+            <div class="logo-circle pulse"><i class="fas fa-graduation-cap"></i></div>
+            <div class="loader-text">
+                <h2>Liceo Cristiano Peninsular</h2>
+                <span class="sub-text">Excelencia Académica</span>
+                <div class="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
+                <p class="loading-status">Iniciando entorno seguro...</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="auth-container" class="auth-wrapper" style="display: none;">
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="auth-logo"><i class="fas fa-university"></i></div>
+                <h1>Portal Académico LCP</h1>
+                <p>Acceso a la plataforma institucional</p>
+            </div>
+            
+            <div class="auth-tabs">
+                <button class="auth-tab active" onclick="toggleAuth('login')">Ingresar</button>
+                <button class="auth-tab" onclick="toggleAuth('register')">Registro Staff</button>
+            </div>
+
+            <form id="login-form" class="auth-form active">
+                <div class="input-group label-in">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="login-email" placeholder=" " required>
+                    <label>Correo Institucional</label>
+                </div>
+                <div class="input-group label-in">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="login-pass" placeholder=" " required>
+                    <label>Contraseña</label>
+                </div>
+                <button type="submit" class="btn-block btn-gradient">Iniciar Sesión <i class="fas fa-arrow-right"></i></button>
+                <p class="auth-footer">¿Olvidó su contraseña? Contacte a secretaría.</p>
+            </form>
+
+            <form id="register-form" class="auth-form">
+                <div class="input-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="reg-name" placeholder="Nombre Completo" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="reg-email" placeholder="Correo Electrónico" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="reg-pass" placeholder="Contraseña" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-id-badge"></i>
+                    <select id="reg-role">
+                        <option value="" disabled selected>Seleccione un Rol</option>
+                        <option value="teacher">Docente</option>
+                        <option value="admin">Administrativo</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-block btn-outline">Crear Cuenta Staff</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="app-dashboard" class="dashboard-container" style="display: none;">
+        
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-shield-alt"></i>
+                <span>LCP Virtual</span>
+            </div>
+            
+            <div class="user-profile-mini">
+                <div class="avatar-circle gradient-box" id="user-avatar">US</div>
+                <div class="user-info">
+                    <h4 id="user-name">Cargando...</h4>
+                    <span id="user-role-badge" class="role-badge">Rol</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-menu">
+                <ul>
+                    <li class="menu-header">NAVEGACIÓN</li>
+                    <li><a href="#" onclick="showSection('dashboard')" class="active"><i class="fas fa-th-large"></i> Inicio</a></li>
+                    
+                    <li class="role-link admin-only menu-header">ADMINISTRACIÓN</li>
+                    <li class="role-link admin-only"><a href="#" onclick="showSection('admin-users')"><i class="fas fa-user-plus"></i> Matricular Usuarios</a></li>
+                    
+                    <li class="role-link student-only menu-header">MI ACADEMIA</li>
+                    <li class="role-link student-only"><a href="#" onclick="showSection('ranking')"><i class="fas fa-medal"></i> Cuadro de Honor</a></li>
+                    <li class="role-link student-only"><a href="#" onclick="showSection('classes')"><i class="fas fa-chalkboard"></i> Mis Clases</a></li>
+
+                    <li class="role-link teacher-only admin-only menu-header">HERRAMIENTAS</li>
+                    <li class="role-link teacher-only admin-only ai-link"><a href="#" onclick="showSection('gemini-ai')"><i class="fas fa-wand-magic-sparkles"></i> Asistente IA (Gemini)</a></li>
+                    <li class="role-link teacher-only"><a href="#" onclick="showSection('teacher-mng')"><i class="fas fa-book-reader"></i> Gestión Académica</a></li>
+                </ul>
+                 <div class="menu-footer">
+                    <a href="#" onclick="logout()" class="logout-link"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
+                 </div>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="top-bar-title">
+                    <h2 id="page-title">Panel de Control</h2>
+                    <span class="current-date">Resumen Académico</span>
+                </div>
+                <div class="top-actions">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Buscar...">
+                    </div>
+                    <button class="icon-btn notification-btn"><i class="far fa-bell"></i><span class="badge-dot"></span></button>
+                </div>
+            </header>
+
+            <div class="content-wrapper">
+                
+                <section id="sec-dashboard" class="content-section active">
+                    <div class="hero-banner gradient-box">
+                        <div class="hero-text">
+                            <h2 id="welcome-msg">Bienvenido de nuevo</h2>
+                            <p>Panel de gestión académica. Selecciona una opción del menú para empezar a trabajar.</p>
+                        </div>
+                        <i class="fas fa-university hero-icon"></i>
+                    </div>
+                    
+                    <div class="quick-stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon bg-blue"><i class="fas fa-user-graduate"></i></div>
+                            <div class="stat-info"><h4>Total Alumnos</h4><span>1,250</span></div>
+                        </div>
+                        <div class="stat-card">
+                             <div class="stat-icon bg-accent"><i class="fas fa-chalkboard-teacher"></i></div>
+                            <div class="stat-info"><h4>Docentes Activos</h4><span>85</span></div>
+                        </div>
+                     </div>
+                </section>
+
+                <section id="sec-admin-users" class="content-section">
+                    <div class="card">
+                        <div class="card-header card-header-accent">
+                            <h3><i class="fas fa-file-signature"></i> Registro de Matrícula</h3>
+                            <p>Generar códigos de acceso para nuevos estudiantes o padres.</p>
+                        </div>
+                        <div class="card-body">
+                            <form id="admin-create-user-form">
+                                <div class="form-grid">
+                                    <div class="input-group label-in">
+                                        <i class="fas fa-users"></i>
+                                        <select id="new-user-role" required>
+                                            <option value="student">Estudiante</option>
+                                            <option value="parent">Padre de Familia</option>
+                                        </select>
+                                        <label>Tipo de Usuario</label>
+                                    </div>
+                                    <div class="input-group label-in">
+                                        <i class="fas fa-user"></i>
+                                        <input type="text" placeholder=" " required>
+                                        <label>Nombre Completo</label>
+                                    </div>
+                                    <div class="input-group label-in">
+                                        <i class="fas fa-envelope"></i>
+                                        <input type="email" placeholder=" " required>
+                                        <label>Correo Electrónico</label>
+                                    </div>
+                                    <div class="input-group label-in">
+                                        <i class="fas fa-barcode"></i>
+                                        <input type="text" placeholder="Ej: MAT-2024-X99" required>
+                                        <label>Código de Validación</label>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn-primary btn-gradient"><i class="fas fa-save"></i> Registrar Matrícula</button>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="sec-ranking" class="content-section">
+                    <div class="card">
+                        <div class="card-header flex-header">
+                            <div>
+                                <h3><i class="fas fa-medal accent-color"></i> Cuadro de Honor</h3>
+                                <span class="header-subtitle">Estudiantes destacados del periodo</span>
+                            </div>
+                            <div class="tabs-pills">
+                                <button class="pill active">Top Global</button>
+                                <button class="pill">Por Nivel</button>
+                            </div>
+                        </div>
+                        <div class="card-body table-container">
+                            <table class="modern-table">
+                                <thead><tr><th>Posición</th><th>Estudiante</th><th>Puntaje Promedio</th><th>Distinción</th></tr></thead>
+                                <tbody id="ranking-body">
+                                    </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="sec-gemini-ai" class="content-section">
+                    <div class="ai-container">
+                        <div class="ai-sidebar-tools gradient-dark">
+                            <div class="ai-brand"><i class="fas fa-robot"></i> Gemini EduPro</div>
+                            <h4 class="menu-header-light">HERRAMIENTAS GENERATIVAS</h4>
+                            <button onclick="setAiMode('report')" class="ai-tool-btn active"><i class="fas fa-file-contract"></i> Reportes de Reunión</button>
+                            <button onclick="setAiMode('exam')" class="ai-tool-btn"><i class="fas fa-file-circle-question"></i> Crear Evaluaciones</button>
+                            <button onclick="setAiMode('analysis')" class="ai-tool-btn"><i class="fas fa-chart-network"></i> Análisis Pedagógico</button>
+                        </div>
+                        <div class="ai-chat-area">
+                            <div class="chat-header">
+                                <span id="ai-mode-title"><i class="fas fa-comment-alt"></i> Generador de Reportes</span>
+                                <span class="badge-ai">Powered by Google AI</span>
+                            </div>
+                            <div class="chat-messages-window" id="ai-window">
+                                <div id="ai-response" class="chat-response placeholder">
+                                    <i class="fas fa-sparkles"></i>
+                                    <p>Los resultados generados por la inteligencia artificial aparecerán en este espacio.</p>
+                                </div>
+                            </div>
+                            <div class="chat-input-area">
+                                <div class="textarea-wrapper">
+                                    <textarea id="ai-prompt" placeholder="Escribe aquí tu instrucción detallada para Gemini..."></textarea>
+                                </div>
+                                <button onclick="consultarGemini()" class="btn-ai-send btn-gradient"><i class="fas fa-paper-plane"></i> Generar</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <section id="sec-classes" class="content-section"><div class="card card-body"><h3>Mis Clases</h3><p>Sección en construcción...</p></div></section>
+                 <section id="sec-teacher-mng" class="content-section"><div class="card card-body"><h3>Gestión Académica Docente</h3><p>Sección en construcción...</p></div></section>
+
+
+            </div>
+        </main>
+    </div>
+
+    <script type="module" src="script.js"></script>
+</body>
+</html>
