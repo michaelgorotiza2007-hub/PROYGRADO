@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banco Estudiantil Peninsular - Sistema de Gestión</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <section id="splash-screen" class="screen active">
+        <div class="splash-content">
+            <img src="https://via.placeholder.com/150" alt="Logo Liceo" class="logo-animado">
+            <h1>UNIDAD EDUCATIVA LICEO CRISTIANO PENINSULAR</h1>
+            <div class="loading-bar-container">
+                <div class="loading-bar"></div>
+            </div>
+            <p>Cargando sistema...</p>
+        </div>
+    </section>
+
+    <section id="profile-selection" class="screen hidden">
+        <h2>Seleccione su Perfil</h2>
+        <div class="profiles-container">
+            <div class="profile-card" onclick="selectProfile('admin')">
+                <i class="fa-solid fa-user-shield"></i>
+                <h3>Administrador</h3>
+            </div>
+            <div class="profile-card" onclick="selectProfile('docente')">
+                <i class="fa-solid fa-chalkboard-user"></i>
+                <h3>Docente</h3>
+            </div>
+            <div class="profile-card" onclick="selectProfile('estudiante')">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <h3>Estudiante</h3>
+            </div>
+        </div>
+    </section>
+
+    <div id="main-app" class="screen hidden">
+        <nav class="sidebar">
+            <div class="logo-area">
+                <img src="https://via.placeholder.com/50" alt="Logo">
+                <span>LCP System</span>
+            </div>
+            <ul id="menu-items">
+                </ul>
+            <div class="logout" onclick="logout()">
+                <i class="fa-solid fa-right-from-bracket"></i> Salir
+            </div>
+        </nav>
+
+        <main class="content-area">
+            <header>
+                <h2 id="page-title">Bienvenido</h2>
+                <div class="user-info">
+                    <span id="user-name">Usuario</span>
+                    <span id="user-role" class="badge">Rol</span>
+                </div>
+            </header>
+
+            <div id="dynamic-content">
+                </div>
+        </main>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
