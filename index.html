@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LCP | Plataforma Educativa</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="bg-layer"></div>
+    <div id="toast-container" class="toast-container"></div>
+
+    <div id="loader-screen">
+        <div class="loader-box">
+            <i class="fas fa-atom fa-spin loader-icon"></i>
+            <h3>Conectando LCP...</h3>
+        </div>
+    </div>
+
+    <div id="view-auth" class="view-section active">
+        <div class="glass-card auth-card">
+            <div class="auth-header">
+                <i class="fas fa-graduation-cap logo-main"></i>
+                <h1>Portal LCP</h1>
+                <p>Sistema de Gestión Académica</p>
+            </div>
+
+            <div class="tabs-container">
+                <button class="tab-btn active" onclick="switchAuthMode('login')">Ingresar</button>
+                <button class="tab-btn" onclick="switchAuthMode('register')">Staff</button>
+            </div>
+
+            <form id="form-login" class="auth-form active">
+                <div class="input-box">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="login-email" placeholder="Correo Institucional" required>
+                </div>
+                <div class="input-box">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="login-pass" placeholder="Contraseña" required>
+                </div>
+                <div class="form-footer">
+                    <a href="#" onclick="showToast('Contacte a secretaría para restablecer', 'info')">¿Olvidó contraseña?</a>
+                </div>
+                <button type="submit" class="btn-primary" id="btn-login">Iniciar Sesión</button>
+            </form>
+
+            <form id="form-register" class="auth-form">
+                <div class="alert-info"><small><i class="fas fa-info-circle"></i> Requiere Token Institucional</small></div>
+                <div class="row-2">
+                    <input type="text" id="reg-name" placeholder="Nombre" class="input-simple" required>
+                    <input type="text" id="reg-last" placeholder="Apellido" class="input-simple" required>
+                </div>
+                <input type="email" id="reg-email" placeholder="Correo" class="input-simple" required>
+                <div class="row-2">
+                    <select id="reg-role" class="input-simple">
+                        <option value="teacher">Docente</option>
+                        <option value="admin">Administrativo</option>
+                    </select>
+                    <input type="password" id="reg-token" placeholder="Token Staff" class="input-simple" required>
+                </div>
+                <input type="password" id="reg-pass" placeholder="Contraseña" class="input-simple" required>
+                <button type="submit" class="btn-outline" id="btn-register">Crear Cuenta</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="view-verify" class="view-section">
+        <div class="glass-card verify-card">
+            <i class="fas fa-shield-alt shield-icon"></i>
+            <h2>Activación Requerida</h2>
+            <p>Hola, <b id="verify-user-name">Estudiante</b>. Ingresa tu código de matrícula.</p>
+            <form id="form-verify">
+                <input type="text" id="verify-code" placeholder="EJ: LCP-2026-X99" required autocomplete="off">
+                <button type="submit" class="btn-primary" id="btn-verify">Validar Código</button>
+            </form>
+            <button onclick="logout()" class="btn-link">Cancelar</button>
+        </div>
+    </div>
+
+    <div id="view-dashboard" class="dashboard-layout">
+        
+        <aside class="sidebar">
+            <div class="brand">
+                <i class="fas fa-university"></i> <span>LCP Virtual</span>
+            </div>
+            
+            <div class="user-widget">
+                <div class="avatar" id="dash-avatar">U</div>
+                <div class="info">
+                    <h4 id="dash-name">Usuario</h4>
+                    <span id="dash-role">Rol</span>
+                </div>
+            </div>
+
+            <nav class="menu">
+                <p class="menu-label">PRINCIPAL</p>
+                <div class="role-group student-only">
+                    <a href="#" onclick="loadSection('sec-stu-home')" class="active"><i class="fas fa-home"></i> Mi Perfil</a>
+                    <a href="#" onclick="loadSection('sec-stu-calendar')"><i class="fas fa-calendar"></i> Calendario</a>
+                    <a href="#" onclick="loadSection('sec-stu-notes')"><i class="fas fa-book"></i> Notas</a>
+                </div>
+                <div class="role-group teacher-only">
+                    <a href="#" onclick="loadSection('sec-tea-courses')" class="active"><i class="fas fa-chalkboard-teacher"></i> Mis Cursos</a>
+                    <a href="#" onclick="loadSection('sec-tea-ai')"><i class="fas fa-robot"></i> Crear Examen IA</a>
+                </div>
+                <div class="role-group admin-only">
+                    <a href="#" onclick="loadSection('sec-adm-register')" class="active"><i class="fas fa-user-plus"></i> Matriculación</a>
+                    <a href="#" onclick="loadSection('sec-adm-list')"><i class="fas fa-users"></i> Lista Usuarios</a>
+                </div>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <button onclick="logout()" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Salir</button>
+            </div>
+        </aside>
+
+        <main class="content">
+            <header class="topbar">
+                <h2 id="section-title">Panel de Control</h2>
+                <div class="actions">
+                    <button class="icon-btn"><i class="fas fa-bell"></i></button>
+                </div>
+            </header>
+
+            <div class="workspace">
+                
+                <section id="sec-stu-home" class="panel active">
+                    <div class="profile-card">
+                        <div class="profile-img-box">
+                            <span id="profile-big-initial">U</span>
+                        </div>
+                        <div class="profile-data">
+                            <h2 id="stu-fullname">Cargando...</h2>
+                            <div class="tags">
+                                <span class="tag"><i class="fas fa-layer-group"></i> <span id="stu-course">--</span></span>
+                                <span class="tag"><i class="fas fa-venus-mars"></i> <span id="stu-gender">--</span></span>
+                                <span class="tag"><i class="fas fa-birthday-cake"></i> <span id="stu-age">-- años</span></span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="sec-stu-calendar" class="panel">
+                    <h3><i class="fas fa-calendar-alt"></i> Agenda Académica</h3>
+                    <div class="calendar-grid" id="calendar-grid"></div>
+                </section>
+
+                <section id="sec-tea-ai" class="panel">
+                    <div class="ai-container">
+                        <div class="ai-header">
+                            <h3><i class="fas fa-brain"></i> Generador Gemini</h3>
+                            <p>Crea exámenes y rúbricas automáticamente.</p>
+                        </div>
+                        <div class="chat-display" id="chat-display">
+                            <div class="msg system">Hola. Describe el examen que necesitas.</div>
+                        </div>
+                        <div class="chat-input-area">
+                            <input type="text" id="ai-prompt" placeholder="Ej: Examen de 5 preguntas sobre la Fotosíntesis para 8vo...">
+                            <button onclick="callGemini()" id="btn-ai-send"><i class="fas fa-paper-plane"></i></button>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="sec-adm-register" class="panel">
+                    <h3><i class="fas fa-file-contract"></i> Nueva Matrícula</h3>
+                    <form id="form-matricula" class="admin-form">
+                        <div class="form-group">
+                            <h4>Datos Estudiante</h4>
+                            <div class="grid-3">
+                                <input type="text" id="mat-name" placeholder="Nombres" required>
+                                <input type="text" id="mat-last" placeholder="Apellidos" required>
+                                <input type="date" id="mat-dob" onchange="calcAge()">
+                                <input type="text" id="mat-age" placeholder="Edad" readonly>
+                                <select id="mat-gender">
+                                    <option value="M">Masculino</option>
+                                    <option value="F">Femenino</option>
+                                </select>
+                                <select id="mat-course">
+                                    <option value="8vo EGB">8vo EGB</option>
+                                    <option value="9no EGB">9no EGB</option>
+                                    <option value="1ero Bach">1ero Bachillerato</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <h4>Datos Representante</h4>
+                            <div class="grid-2">
+                                <input type="text" id="rep-name" placeholder="Nombre Completo Rep." required>
+                                <input type="text" id="rep-cedula" placeholder="Cédula">
+                                <input type="text" id="rep-phone" placeholder="Celular">
+                                <input type="email" id="rep-email" placeholder="Correo Rep.">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-primary full" id="btn-matricular">Registrar Estudiante</button>
+                    </form>
+
+                    <div id="credential-result" class="credential-box" style="display:none;">
+                        <h4>✅ Estudiante Registrado</h4>
+                        <div class="code-box">
+                            <p>Usuario: <b id="res-user"></b></p>
+                            <p>Contraseña: <b id="res-pass"></b></p>
+                            <p>CÓDIGO DE MATRÍCULA: <b id="res-code" class="highlight"></b></p>
+                        </div>
+                        <button onclick="document.getElementById('credential-result').style.display='none'" class="btn-link">Cerrar</button>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <script type="module" src="script.js"></script>
+</body>
+</html>
