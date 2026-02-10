@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro Institución</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body style="display:flex; justify-content:center; padding:40px; background:#f0f9ff;">
+    <div id="toast-container"></div>
+    
+    <div class="glass-panel" style="width:100%; max-width:800px; padding:50px; background:white;">
+        <h2 style="color:#00A8E8; text-align:center; margin-bottom:40px;">Registro de Institución</h2>
+        
+        <form id="fullRegisterForm">
+            <h4 style="color:#6b7280; border-bottom:1px solid #eee; padding-bottom:10px; margin-bottom:20px;">
+                <span style="background:#00A8E8; color:white; width:25px; height:25px; display:inline-flex; align-items:center; justify-content:center; border-radius:50%; margin-right:10px; font-size:0.8rem;">1</span>
+                Datos del Director
+            </h4>
+            <div class="grid-2">
+                <div><label>Nombre Completo</label><input type="text" id="regNombre" required></div>
+                <div><label>Correo Electrónico</label><input type="email" id="regEmail" required></div>
+                <div><label>Contraseña</label><input type="password" id="regPass" required></div>
+                <div><label>Cargo</label><select id="regCargo"><option>Director</option><option>Rector</option></select></div>
+            </div>
+
+            <h4 style="color:#6b7280; border-bottom:1px solid #eee; padding-bottom:10px; margin:30px 0 20px 0;">
+                <span style="background:#00A8E8; color:white; width:25px; height:25px; display:inline-flex; align-items:center; justify-content:center; border-radius:50%; margin-right:10px; font-size:0.8rem;">2</span>
+                Datos de la Institución
+            </h4>
+            <div class="grid-2">
+                <div><label>Nombre Institución</label><input type="text" id="regInst" required></div>
+                <div><label>Código AMIE</label><input type="text" id="regAMIE" required></div>
+                <div><label>Sostenimiento</label><select id="regSostenimiento"><option>Particular</option><option>Fiscal</option></select></div>
+            </div>
+
+            <button type="submit" class="btn btn-blue" style="width:100%; justify-content:center; margin-top:40px; padding:15px; font-size:1rem;">
+                Completar Registro <i class="fas fa-check-circle"></i>
+            </button>
+        </form>
+    </div>
+    <script type="module" src="js/auth.js"></script>
+</body>
+</html>
